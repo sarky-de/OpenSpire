@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"nodemon dist/app.js\"",
     "build": "tsc",
-    "test": "jest",
+    "test": "jest src",
     "lint": "eslint --ext .js,.ts ./src"
   },
   "repository": {

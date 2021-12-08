@@ -3,8 +3,8 @@ import { GameStateManager } from "./GameStateManager";
 
 class TestGameState implements GameState {
     private _nextState : GameState | undefined;
-    private _isEnterCalled: boolean = false;
-    private _isExitCalled: boolean = false;
+    private _isEnterCalled = false;
+    private _isExitCalled = false;
 
     public constructor(nextState?: GameState) {
         this._nextState = nextState;
