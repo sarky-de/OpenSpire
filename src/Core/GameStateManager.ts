@@ -1,4 +1,5 @@
 import { GameState } from "./GameState";
+import { Logger } from "./Logger"
 
 type GameStateEntry = {
     state: GameState,
@@ -21,6 +22,7 @@ export class GameStateManager {
 
     public Switch(newStateName: string): boolean {
         if (!this._gameStates.has(newStateName)) {
+            Logger.info("Game state %s is unknown", newStateName);
             return false;
         }
 
