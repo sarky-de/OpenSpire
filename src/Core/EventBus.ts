@@ -12,6 +12,7 @@ export class EventBus implements EventDispatcher {
         if (!this._eventMap.has(event)) {
             return;
         } 
+
         handlers = this._eventMap.get(event)!;
         handlers.forEach(callback => callback(payload));     
     }
@@ -24,6 +25,7 @@ export class EventBus implements EventDispatcher {
         } else {
             handlers = this._eventMap.get(event)!;
         }
+
         var exists: boolean = false;
         handlers.some(element => {
             if (element === handler) {
@@ -31,9 +33,11 @@ export class EventBus implements EventDispatcher {
                 return exists;
             }
         });
+
         if (!exists) {
             handlers.push(handler);
         }
+
         return !exists;
     }
 
@@ -41,7 +45,8 @@ export class EventBus implements EventDispatcher {
         if (!this._eventMap.has(event)) {
             return false;
         }
-        let handlers = this._eventMap.get(event)!;
+
+        const handlers = this._eventMap.get(event)!;
         let found = false;
         for (let i = 0; i < handlers.length; i++) {
             if (handlers[i] === handler) {
@@ -50,6 +55,7 @@ export class EventBus implements EventDispatcher {
                 break;
             }
         }
+
         return found;
     }
 }
