@@ -7,6 +7,15 @@ class TestableEventBus extends EventBus {
     }
 }
 
+test("Callback register returns success", () => {
+    const event = "TEST";
+    const eb = new TestableEventBus();
+    let success = false;
+
+    success = eb.register(event, () => { });
+    expect(success).toBe(true);
+})
+
 test("Callback dispatches correctly", () => {
     const event = "TEST";
     const eb = new TestableEventBus();
@@ -110,6 +119,16 @@ test("Same callback can be registered for multiple events", () => {
     expect(callbacks1).toContain(fn);
     const callbacks2 = eb.getCallbacks(event1);
     expect(callbacks2).toContain(fn);
+})
+
+test("Callback unregister returns success", () => {
+    const event = "TEST";
+    const eb = new TestableEventBus();
+    const fn = () => { };
+
+    eb.register(event, fn);
+    const success = eb.unregister(event, fn);
+    expect(success).toBe(true);
 })
 
 test("Callback unregisters correctly", () => {

@@ -1,7 +1,7 @@
 import { Component } from "./Component";
 import { ENTITY_INVALID } from "./ECSConstants";
 
-let nextEntityId: number = 0;
+let nextEntityId = 0;
 
 export const entities = Array<Entity>();
 
@@ -11,7 +11,7 @@ export class Entity {
 }
 
 export function createEntity(): Entity {
-    let entity: Entity = {
+    const entity: Entity = {
         id: nextEntityId++,
         components: [],
     } 

@@ -1,1 +1,1 @@
-export const ENTITY_INVALID: number = -1;
+export const ENTITY_INVALID = -1;

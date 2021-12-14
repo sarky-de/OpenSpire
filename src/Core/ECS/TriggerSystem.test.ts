@@ -1,4 +1,4 @@
-import { eventBus } from "./ECS";
+import { ECS } from "./ECS";
 import { ENTITY_INVALID } from "./ECSConstants";
 import { Trigger } from "./Trigger";
 import { TriggerSystem } from "./TriggerSystem";
@@ -28,19 +28,25 @@ class TestTriggerSystem extends TriggerSystem {
     }
 }
 
+beforeEach(() => {
+    ECS.getInstance().initialize();
+});
+
+afterEach(() => {
+    ECS.getInstance().destroy();
+})
+
 test("TriggerSystem registers at EventBus", () => {
-    const testTriggerSystem = new TestTriggerSystem();
-    testTriggerSystem.Initialize();
+    const testTriggerSystem = ECS.getInstance().createSystem<TestTriggerSystem>(TestTriggerSystem);
     expect(testTriggerSystem.isRunCalled).toBe(false);
-    eventBus.dispatch<TestTrigger>(TestTrigger.type);
+    ECS.getInstance().eventBus.dispatch<TestTrigger>(TestTrigger.type);
     expect(testTriggerSystem.isRunCalled).toBe(true);
 });
 
 test("TriggerSystem receives payload", () => {
     const PAYLOAD_VALUE: number = 10;
-    const testTriggerSystem = new TestTriggerSystem();
-    testTriggerSystem.Initialize();
-    eventBus.dispatch<TestTrigger>(TestTrigger.type, { originEntityId: ENTITY_INVALID, value: PAYLOAD_VALUE });
+    const testTriggerSystem = ECS.getInstance().createSystem<TestTriggerSystem>(TestTriggerSystem);
+    ECS.getInstance().eventBus.dispatch<TestTrigger>(TestTrigger.type, { originEntityId: ENTITY_INVALID, value: PAYLOAD_VALUE });
     expect(testTriggerSystem.payload).toHaveProperty("originEntityId");
     expect(testTriggerSystem.payload).toHaveProperty("value");
     expect(testTriggerSystem.payload.value).toBe(PAYLOAD_VALUE);

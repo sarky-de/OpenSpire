@@ -1,5 +1,5 @@
 import { Component } from "./Component";
-import { createComponent, eventBus, getComponents } from "./ECS";
+import { ECS } from "./ECS";
 import { createEntity } from "./Entity";
 import { Trigger } from "./Trigger";
 import { TriggerSystem } from "./TriggerSystem";
@@ -24,7 +24,7 @@ class DamageAllSystem extends TriggerSystem {
 
     public Run(payload?: any): void {
         let data = payload as DamageAllTrigger;
-        let healthComponents = getComponents<HealthComponent>(HealthComponent);
+        let healthComponents = ECS.getInstance().getComponents<HealthComponent>(HealthComponent);
 
         healthComponents.forEach(component => {
             if (component.entityId != data.originEntityId) {
@@ -34,16 +34,24 @@ class DamageAllSystem extends TriggerSystem {
     }
 }
 
+beforeEach(() => {
+    ECS.getInstance().initialize();
+});
+
+afterEach(() => {
+    ECS.getInstance().destroy();
+})
+
 test("Integration", () => {
+    const ecs = ECS.getInstance();
     const player = createEntity();
-    createComponent<HealthComponent>(player, HealthComponent);
+    ecs.createComponent<HealthComponent>(player, HealthComponent);
     
     const enemy = createEntity();
-    createComponent<HealthComponent>(enemy, HealthComponent);
+    ecs.createComponent<HealthComponent>(enemy, HealthComponent);
     
-    const damageAllSystem = new DamageAllSystem();
-    damageAllSystem.Initialize();
-    eventBus.dispatch<DamageAllTrigger>(DamageAllTrigger.type, { originEntityId: player.id, damage: DAMAGE });
+    const damageAllSystem = ecs.createSystem<DamageAllSystem>(DamageAllSystem);
+    ecs.eventBus.dispatch<DamageAllTrigger>(DamageAllTrigger.type, { originEntityId: player.id, damage: DAMAGE });
 
     const healthComponent = enemy.components[0] as HealthComponent;
     expect(healthComponent.health).toBe(INITIAL_HEALTH - DAMAGE);

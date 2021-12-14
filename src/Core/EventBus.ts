@@ -1,32 +1,31 @@
-import { EventDispatcher } from "./EventDispatcher";
+import { EventDispatcher, EventHandler } from "./EventDispatcher";
 
 export class EventBus implements EventDispatcher {
-    protected readonly _eventMap: Map<string, Array<Function>>;
+    protected readonly _eventMap: Map<string, Array<EventHandler>>;
 
     public constructor() {
-        this._eventMap = new Map<string, Array<Function>>();
+        this._eventMap = new Map<string, Array<EventHandler>>();
     }
 
     dispatch<T>(event: string, payload?: T): void {
-        let handlers: Array<Function>;
         if (!this._eventMap.has(event)) {
             return;
         } 
 
-        handlers = this._eventMap.get(event)!;
+        const handlers: Array<EventHandler> = this._eventMap.get(event)!;
         handlers.forEach(callback => callback(payload));     
     }
 
-    register(event: string, handler: Function): boolean {
-        let handlers: Array<Function>;
+    register(event: string, handler: EventHandler): boolean {
+        let handlers: Array<EventHandler>;
         if (!this._eventMap.has(event)) {
-            handlers = new Array<Function>();
+            handlers = new Array<EventHandler>();
             this._eventMap.set(event, handlers);
         } else {
             handlers = this._eventMap.get(event)!;
         }
 
-        var exists: boolean = false;
+        let exists = false;
         handlers.some(element => {
             if (element === handler) {
                 exists = true;
@@ -41,7 +40,7 @@ export class EventBus implements EventDispatcher {
         return !exists;
     }
 
-    unregister(event: string, handler: Function): boolean {
+    unregister(event: string, handler: EventHandler): boolean {
         if (!this._eventMap.has(event)) {
             return false;
         }

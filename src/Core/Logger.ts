@@ -47,18 +47,18 @@ export class Logger {
         logger.error(this.formatMessage(message), args);
     }
  
+    private static formatMessage(message: string): string {
+        return `[${this.getCallerName()}] ${message}`;
+    }
+
     protected static getCallerName(): string {
         try {
             throw new Error();
         } catch (error) {
-            let lines = (error as Error).stack?.split("\n");
-            let line = lines ? lines[4].slice(7, lines[4].indexOf(" ", 7)) : "";
+            const lines = (error as Error).stack?.split("\n");
+            const line = lines ? lines[4].slice(7, lines[4].indexOf(" ", 7)) : "";
 
             return line;
         }
     }
-
-    private static formatMessage(message: string): string {
-        return `[${this.getCallerName()}] ${message}`;
-    }
-}
+ }

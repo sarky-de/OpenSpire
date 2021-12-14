@@ -16,8 +16,9 @@ export class GameStateManager {
         this._currentStateName = "";
     }
 
-    public Add(stateName: string, state: GameState, nextStateNames: Array<string>): void {
+    public Add(stateName: string, state: GameState, nextStateNames: Array<string>): GameStateManager {
         this._gameStates.set(stateName, { state, nextStateNames });
+        return this;
     }
 
     public Switch(newStateName: string): boolean {
