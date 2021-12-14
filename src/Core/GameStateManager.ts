@@ -50,8 +50,11 @@ export class GameStateManager {
         if (this._currentState != undefined) {
             this._currentState.Exit();
         } 
+
         newState.Enter();
         this._currentState = newState;
         this._currentStateName = newStateName;
+
+        newState.Run();
     }
 }

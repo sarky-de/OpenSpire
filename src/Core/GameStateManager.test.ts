@@ -68,7 +68,7 @@ test("Enter for next state is called when switching states", () => {
     expect(gs2.isEnterCalled).toBe(true);
 });
 
-test("Run for current state is called", () => {
+test("Run for switched state is called", () => {
     const gs1 = new TestGameState();
     const gs2 = new TestGameState();    
     const gsm = new TestGameStateManager();
@@ -76,9 +76,8 @@ test("Run for current state is called", () => {
     gsm.Add(STATE_START, gs1, [STATE_END]);
     gsm.Add(STATE_END, gs2, []);
 
-    gsm.Switch(STATE_START);
     expect(gs1.isRunCalled).toBe(false);
-    gsm.Run();
+    gsm.Switch(STATE_START);
     expect(gs1.isRunCalled).toBe(true);
 });
 
