@@ -1,8 +1,9 @@
 import { Component } from "./Component";
 import { ECS } from "./ECS";
-import { createEntity } from "./Entity";
 import { Trigger } from "./Trigger";
 import { TriggerSystem } from "./TriggerSystem";
+
+const ecs = ECS.getInstance();
 
 const INITIAL_HEALTH: number = 100;
 const DAMAGE: number = 10;
@@ -35,24 +36,24 @@ class DamageAllSystem extends TriggerSystem {
 }
 
 beforeEach(() => {
-    ECS.getInstance().initialize();
+    ecs.initialize();
 });
 
 afterEach(() => {
-    ECS.getInstance().destroy();
+    ecs.destroy();
 })
 
 test("Integration", () => {
-    const ecs = ECS.getInstance();
-    const player = createEntity();
+    const player = ecs.createEntity();
     ecs.createComponent<HealthComponent>(player, HealthComponent);
     
-    const enemy = createEntity();
+    const enemy = ecs.createEntity();
     ecs.createComponent<HealthComponent>(enemy, HealthComponent);
     
-    const damageAllSystem = ecs.createSystem<DamageAllSystem>(DamageAllSystem);
-    ecs.eventBus.dispatch<DamageAllTrigger>(DamageAllTrigger.type, { originEntityId: player.id, damage: DAMAGE });
+    ecs.createSystem<DamageAllSystem>(DamageAllSystem);
+    ecs.eventBus.dispatch<DamageAllTrigger>(DamageAllTrigger.type, 
+        { originEntityId: player.id, damage: DAMAGE });
 
-    const healthComponent = enemy.components[0] as HealthComponent;
+    const healthComponent: HealthComponent = enemy.components[0] as HealthComponent;
     expect(healthComponent.health).toBe(INITIAL_HEALTH - DAMAGE);
 });
