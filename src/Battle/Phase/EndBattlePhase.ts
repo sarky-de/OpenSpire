@@ -1,15 +1,23 @@
 import { GameState } from "../../Core/GameState";
+import { Logger } from "../../Core/Logger";
+import { Battle } from "../Battle";
 
 export class EndBattlePhase implements GameState {
+    private readonly _battle: Battle;
+
+    constructor(battle: Battle) {
+        this._battle = battle;
+    }
+
     Enter(): void {
-        throw new Error("Method not implemented.");
+        Logger.info("EndBattlePhase Enter");
     }
     
     Exit(): void {
-        throw new Error("Method not implemented.");
+        Logger.info("EndBattlePhase Exit");
     }
 
     Run(): void {
-        throw new Error("Method not implemented.");
+        Logger.info("EndBattlePhase Run");
     }
 }

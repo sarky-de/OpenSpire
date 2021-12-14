@@ -2,7 +2,7 @@
   "name": "openspire",
   "version": "0.0.1",
   "description": "",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"nodemon dist/app.js\"",
     "build": "tsc",
