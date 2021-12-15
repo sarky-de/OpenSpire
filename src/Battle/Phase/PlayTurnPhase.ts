@@ -1,6 +1,6 @@
-import { GameState } from "../../Core/GameState";
-import { Logger } from "../../Core/Logger";
-import { Battle } from "../Battle";
+import { GameState } from '../../Core/GameState';
+import { Logger } from '../../Core/Logger';
+import { Battle } from '../Battle';
 
 export class PlayTurnPhase implements GameState {
     private readonly _battle: Battle;
@@ -10,14 +10,14 @@ export class PlayTurnPhase implements GameState {
     }
 
     Enter(): void {
-        Logger.info("PlayTurnPhase Enter");
+        Logger.info('PlayTurnPhase Enter');
     }
-    
+
     Exit(): void {
-        Logger.info("StartTurnPhase Exit");
+        Logger.info('StartTurnPhase Exit');
     }
 
     Run(): void {
-        Logger.info("StartTurnPhase Run");
+        Logger.info('StartTurnPhase Run');
     }
 }

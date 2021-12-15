@@ -1,4 +1,4 @@
-import { EventDispatcher, EventHandler } from "./EventDispatcher";
+import { EventDispatcher, EventHandler } from './EventDispatcher';
 
 export class EventBus implements EventDispatcher {
     protected readonly _eventMap: Map<string, Array<EventHandler>>;
@@ -10,10 +10,10 @@ export class EventBus implements EventDispatcher {
     dispatch<T>(event: string, payload?: T): void {
         if (!this._eventMap.has(event)) {
             return;
-        } 
+        }
 
         const handlers: Array<EventHandler> = this._eventMap.get(event)!;
-        handlers.forEach(callback => callback(payload));     
+        handlers.forEach((callback) => callback(payload));
     }
 
     register(event: string, handler: EventHandler): boolean {
@@ -26,7 +26,7 @@ export class EventBus implements EventDispatcher {
         }
 
         let exists = false;
-        handlers.some(element => {
+        handlers.some((element) => {
             if (element === handler) {
                 exists = true;
                 return exists;

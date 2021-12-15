@@ -1,20 +1,20 @@
-import { GameState } from "./GameState";
-import { GameStateManager } from "./GameStateManager";
+import { GameState } from './GameState';
+import { GameStateManager } from './GameStateManager';
 
 class TestGameState implements GameState {
     private _isEnterCalled = false;
     private _isExitCalled = false;
     private _isRunCalled = false;
 
-    public get isEnterCalled() : boolean {
+    public get isEnterCalled(): boolean {
         return this._isEnterCalled;
     }
 
-    public get isExitCalled() : boolean {
+    public get isExitCalled(): boolean {
         return this._isExitCalled;
     }
 
-    public get isRunCalled() : boolean {
+    public get isRunCalled(): boolean {
         return this._isRunCalled;
     }
 
@@ -32,15 +32,15 @@ class TestGameState implements GameState {
 }
 
 class TestGameStateManager extends GameStateManager {
-    public get CurrentGameState() : GameState | undefined {
+    public get CurrentGameState(): GameState | undefined {
         return this._currentState;
-    }    
+    }
 }
 
-const STATE_START: string = "START";
-const STATE_END: string = "END";
+const STATE_START: string = 'START';
+const STATE_END: string = 'END';
 
-test("Exit for current state is called when switching states", () => {
+test('Exit for current state is called when switching states', () => {
     const gs1 = new TestGameState();
     const gs2 = new TestGameState();
     const gsm = new TestGameStateManager();
@@ -54,7 +54,7 @@ test("Exit for current state is called when switching states", () => {
     expect(gs1.isExitCalled).toBe(true);
 });
 
-test("Enter for next state is called when switching states", () => {
+test('Enter for next state is called when switching states', () => {
     const gs1 = new TestGameState();
     const gs2 = new TestGameState();
     const gsm = new TestGameStateManager();
@@ -68,9 +68,9 @@ test("Enter for next state is called when switching states", () => {
     expect(gs2.isEnterCalled).toBe(true);
 });
 
-test("Run for switched state is called", () => {
+test('Run for switched state is called', () => {
     const gs1 = new TestGameState();
-    const gs2 = new TestGameState();    
+    const gs2 = new TestGameState();
     const gsm = new TestGameStateManager();
 
     gsm.Add(STATE_START, gs1, [STATE_END]);
@@ -81,7 +81,7 @@ test("Run for switched state is called", () => {
     expect(gs1.isRunCalled).toBe(true);
 });
 
-test("Next state is set correctly after switching states", () => {
+test('Next state is set correctly after switching states', () => {
     const gs1 = new TestGameState();
     const gs2 = new TestGameState();
     const gsm = new TestGameStateManager();
@@ -93,26 +93,26 @@ test("Next state is set correctly after switching states", () => {
     expect(gsm.CurrentGameState).toBe(gs1);
 });
 
-test("Switching to undefined state is not possible", () => {
+test('Switching to undefined state is not possible', () => {
     const gs = new TestGameState();
     const gsm = new TestGameStateManager();
 
     gsm.Add(STATE_START, gs, [STATE_END]);
- 
+
     const success = gsm.Switch(STATE_END);
     expect(success).toBe(false);
 });
 
-test("Switching to unadded state is not possible", () => {
+test('Switching to unadded state is not possible', () => {
     const gsm = new TestGameStateManager();
- 
+
     const success = gsm.Switch(STATE_START);
     expect(success).toBe(false);
 });
 
-test("Switching to unconfigured next state is not possible", () => {
+test('Switching to unconfigured next state is not possible', () => {
     const gs1 = new TestGameState();
-    const gs2 = new TestGameState();    
+    const gs2 = new TestGameState();
     const gsm = new TestGameStateManager();
 
     gsm.Add(STATE_START, gs1, []);

@@ -1,4 +1,4 @@
-import { ENTITY_INVALID } from "./ECSConstants";
+import { ENTITY_INVALID } from './ECSConstants';
 
 export const components = new Array<Component>();
 

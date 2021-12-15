@@ -1,9 +1,9 @@
-import { GameState } from "./GameState";
-import { Logger } from "./Logger"
+import { GameState } from './GameState';
+import { Logger } from './Logger';
 
 type GameStateEntry = {
-    state: GameState,
-    nextStateNames: Array<string>
+    state: GameState;
+    nextStateNames: Array<string>;
 };
 
 export class GameStateManager {
@@ -13,27 +13,34 @@ export class GameStateManager {
 
     public constructor() {
         this._gameStates = new Map<string, GameStateEntry>();
-        this._currentStateName = "";
+        this._currentStateName = '';
     }
 
-    public Add(stateName: string, state: GameState, nextStateNames: Array<string>): GameStateManager {
+    public Add(
+        stateName: string,
+        state: GameState,
+        nextStateNames: Array<string>
+    ): GameStateManager {
         this._gameStates.set(stateName, { state, nextStateNames });
         return this;
     }
 
     public Switch(newStateName: string): boolean {
         if (!this._gameStates.has(newStateName)) {
-            Logger.info("Game state %s is unknown", newStateName);
+            Logger.info('Game state %s is unknown', newStateName);
             return false;
         }
 
-        const newStateEntry: GameStateEntry = this._gameStates.get(newStateName)!;
+        const newStateEntry: GameStateEntry =
+            this._gameStates.get(newStateName)!;
         if (this._currentState == undefined) {
             this.SetState(newStateName, newStateEntry.state);
             return true;
         }
 
-        const currentStateEntry: GameStateEntry = this._gameStates.get(this._currentStateName)!;
+        const currentStateEntry: GameStateEntry = this._gameStates.get(
+            this._currentStateName
+        )!;
         if (currentStateEntry.nextStateNames.includes(newStateName)) {
             this.SetState(newStateName, newStateEntry.state);
             return true;
@@ -49,7 +56,7 @@ export class GameStateManager {
     private SetState(newStateName: string, newState: GameState): void {
         if (this._currentState != undefined) {
             this._currentState.Exit();
-        } 
+        }
 
         newState.Enter();
         this._currentState = newState;
