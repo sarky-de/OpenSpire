@@ -9,9 +9,15 @@ const INITIAL_HEALTH: number = 100;
 const DAMAGE: number = 10;
 
 class HealthComponent extends Component {
-    static readonly type: string = 'HealthComponent';
+    readonly type: string = 'HealthComponent';
 
     public health: number = INITIAL_HEALTH;
+}
+
+class DamageComponent extends Component {
+    readonly type: string = 'DamageComponent';
+
+    public damage: number = DAMAGE;
 }
 
 class DamageAllTrigger extends Trigger {
@@ -57,7 +63,31 @@ test('Integration', () => {
         damage: DAMAGE
     });
 
-    const healthComponent: HealthComponent = enemy
-        .components[0] as HealthComponent;
-    expect(healthComponent.health).toBe(INITIAL_HEALTH - DAMAGE);
+    const healthComponent: HealthComponent | undefined = ecs.getEntityComponent(
+        enemy.id,
+        HealthComponent
+    );
+    expect(healthComponent).toBeDefined();
+    expect(healthComponent!.health).toBe(INITIAL_HEALTH - DAMAGE);
+});
+
+test('getEntityComponent returns component of correct type', () => {
+    const player = ecs.createEntity();
+    const component = ecs.createComponent<HealthComponent>(
+        player,
+        HealthComponent
+    );
+    if (!component) {
+        fail('Unable to create component');
+    }
+    ecs.createComponent<DamageComponent>(player, DamageComponent);
+
+    const retrievedComponent = ecs.getEntityComponent<HealthComponent>(
+        player.id,
+        HealthComponent
+    );
+    expect(retrievedComponent).toBeDefined();
+    if (retrievedComponent) {
+        expect(retrievedComponent.type).toBe(component.type);
+    }
 });

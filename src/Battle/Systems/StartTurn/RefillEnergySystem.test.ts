@@ -21,6 +21,9 @@ test('Energy is refilled', () => {
         entity,
         EnergyComponent
     );
+    if (!energyComponent) {
+        fail('Unable to create component');
+    }
     energyComponent.energy = 0;
     energyComponent.maxEnergy = TARGET_ENERGY;
 

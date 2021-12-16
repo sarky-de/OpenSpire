@@ -1,6 +1,9 @@
 import { ECS } from './ECS';
 import { System } from './System';
 
+/**
+ * A TriggerSystem runs every time a Trigger is dispatched.
+ */
 export abstract class TriggerSystem extends System {
     protected abstract triggerType: string;
 

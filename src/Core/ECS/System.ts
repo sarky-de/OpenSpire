@@ -1,5 +1,6 @@
-export const systems: Array<System> = new Array<System>();
-
+/**
+ * A System is used to transform data stored on the components.
+ */
 export abstract class System {
     public abstract Initialize(): void;
     public abstract Destroy(): void;
