@@ -8,7 +8,8 @@
     "build": "tsc",
     "test": "jest src",
     "lint": "eslint --ext .js,.ts ./src",
-    "format": "prettier --config .prettierrc.json 'src/**/*.ts' --write"
+    "format": "prettier --config .prettierrc.json 'src/**/*.ts' --write",
+    "docs": "typedoc"
   },
   "repository": {
     "type": "git",
@@ -31,7 +32,8 @@
     "jest": "^27.4.3",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
-    "ts-jest": "^27.1.0"
+    "ts-jest": "^27.1.0",
+    "typedoc": "^0.22.10"
   },
   "dependencies": {
     "@types/winston": "^2.4.4",
